@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - NoteNest</title>
+    <link rel="stylesheet" href="/App-frontend/style.css">
+</head>
+<body>
+
+    <div class="container-auth">
+        <div id="signup-form">
+            <h2>Register</h2>
+            <form id="signupForm">
+                <input type="text" id="register-username" placeholder="Username" autofocus required pattern="[a-zA-Z0-9]{5,}">
+                <input type="email" id="register-email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                <input type="password" id="register-password" placeholder="Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                <input type="password" id="register-password-confirm" placeholder="Confirm Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="/App-frontend/login.html" onclick="toggleForm('login')">Login here</a></p>
+        </div>
+    </div>
+
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/notes.js"></script>
+</body>
+</html>
