@@ -12,11 +12,11 @@ app.use(express.json()); // Parse JSON requests
 app.use(cors()); // Allow cross-origin requests
 
 // Import Routes
-const authRoutes = require("./routes/authRoutes");
+
 const notesRoutes = require("./routes/notesRoutes");
 
 // Use Routes
-app.use("/api/auth", authRoutes);
+
 app.use("/api/notes", notesRoutes);
 
 // MongoDB Connection
