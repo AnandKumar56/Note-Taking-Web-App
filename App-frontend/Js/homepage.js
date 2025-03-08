@@ -9,14 +9,21 @@ async function fetchNotes() {
     }
 
     try {
+        showLoadingIndicator();
         const response = await fetch(API_URLS.FETCH_NOTES, {
             method: "GET",
             headers: { "Authorization": `Bearer ${token}` },
         });
+        hideLoadingIndicator();
+        if (!response.ok) {
+            throw new Error('Failed to fetch notes');
+        }
         const notes = await response.json();
         renderNotes(notes);
     } catch (error) {
+        hideLoadingIndicator();
         console.error("Fetch Notes Error:", error);
+        showError(error.message);
         alert("An error occurred while fetching notes. Please try again.");
     }
 }
@@ -46,6 +53,7 @@ document.getElementById("addNoteForm")?.addEventListener("submit", async (e) => 
     const token = localStorage.getItem("token");
 
     try {
+        showLoadingIndicator();
         const response = await fetch(API_URLS.ADD_NOTE, {
             method: "POST",
             headers: {
@@ -54,15 +62,17 @@ document.getElementById("addNoteForm")?.addEventListener("submit", async (e) => 
             },
             body: JSON.stringify({ title, content }),
         });
-
-        if (response.ok) {
-            alert("Note added successfully!");
-            fetchNotes();
-        } else {
-            alert("Failed to add note. Please try again.");
+        hideLoadingIndicator();
+        if (!response.ok) {
+            throw new Error('Failed to create note');
         }
+        const note = await response.json();
+        alert("Note added successfully!");
+        fetchNotes();
     } catch (error) {
+        hideLoadingIndicator();
         console.error("Add Note Error:", error);
+        showError(error.message);
         alert("An error occurred while adding the note. Please try again.");
     }
 });
@@ -76,6 +86,7 @@ async function editNote(noteId) {
         const token = localStorage.getItem("token");
 
         try {
+            showLoadingIndicator();
             const response = await fetch(`${API_URLS.UPDATE_NOTE}${noteId}`, {
                 method: "PUT",
                 headers: {
@@ -84,15 +95,17 @@ async function editNote(noteId) {
                 },
                 body: JSON.stringify({ title: newTitle, content: newContent }),
             });
-
-            if (response.ok) {
-                alert("Note updated successfully!");
-                fetchNotes();
-            } else {
-                alert("Failed to update note. Please try again.");
+            hideLoadingIndicator();
+            if (!response.ok) {
+                throw new Error('Failed to update note');
             }
+            const note = await response.json();
+            alert("Note updated successfully!");
+            fetchNotes();
         } catch (error) {
+            hideLoadingIndicator();
             console.error("Edit Note Error:", error);
+            showError(error.message);
             alert("An error occurred while updating the note. Please try again.");
         }
     }
@@ -103,19 +116,21 @@ async function deleteNote(noteId) {
     const token = localStorage.getItem("token");
 
     try {
+        showLoadingIndicator();
         const response = await fetch(`${API_URLS.DELETE_NOTE}${noteId}`, {
             method: "DELETE",
             headers: { "Authorization": `Bearer ${token}` },
         });
-
-        if (response.ok) {
-            alert("Note deleted successfully!");
-            fetchNotes();
-        } else {
-            alert("Failed to delete note. Please try again.");
+        hideLoadingIndicator();
+        if (!response.ok) {
+            throw new Error('Failed to delete note');
         }
+        alert("Note deleted successfully!");
+        fetchNotes();
     } catch (error) {
+        hideLoadingIndicator();
         console.error("Delete Note Error:", error);
+        showError(error.message);
         alert("An error occurred while deleting the note. Please try again.");
     }
 }
@@ -382,3 +397,15 @@ function categorizeNotes() {
 
 // Initialize notes on page load
 document.addEventListener("DOMContentLoaded", fetchNotes);
+
+function showLoadingIndicator() {
+    // Implement loading indicator display
+}
+
+function hideLoadingIndicator() {
+    // Implement loading indicator hide
+}
+
+function showError(message) {
+    // Implement error message display
+}

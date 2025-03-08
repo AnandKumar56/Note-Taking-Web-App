@@ -8,11 +8,13 @@ document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
     const password = document.getElementById("signupPassword").value;
 
     try {
+        showLoadingIndicator();
         const response = await fetch(API_URLS.REGISTER, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
         });
+        hideLoadingIndicator();
         const data = await response.json();
 
         if (response.ok) {
@@ -22,6 +24,7 @@ document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
             alert(data.error || "Signup failed.");
         }
     } catch (error) {
+        hideLoadingIndicator();
         console.error("Signup Error:", error);
         alert("An error occurred during signup. Please try again.");
     }
@@ -34,11 +37,13 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
     const password = document.getElementById("loginPassword").value;
 
     try {
+        showLoadingIndicator();
         const response = await fetch(API_URLS.LOGIN, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
         });
+        hideLoadingIndicator();
         const data = await response.json();
 
         if (response.ok) {
@@ -48,6 +53,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
             alert(data.error || "Login failed.");
         }
     } catch (error) {
+        hideLoadingIndicator();
         console.error("Login Error:", error);
         alert("An error occurred during login. Please try again.");
     }
@@ -60,3 +66,15 @@ function logout() {
 }
 
 document.getElementById("logoutBtn")?.addEventListener("click", logout);
+
+function showLoadingIndicator() {
+    // Implement loading indicator display
+}
+
+function hideLoadingIndicator() {
+    // Implement loading indicator hide
+}
+
+function showError(message) {
+    // Implement error message display
+}
