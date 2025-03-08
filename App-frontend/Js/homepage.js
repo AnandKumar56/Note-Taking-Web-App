@@ -1,3 +1,125 @@
+import { API_URLS } from "./api.js";
+
+// Fetch notes from the backend
+async function fetchNotes() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(API_URLS.FETCH_NOTES, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` },
+        });
+        const notes = await response.json();
+        renderNotes(notes);
+    } catch (error) {
+        console.error("Fetch Notes Error:", error);
+        alert("An error occurred while fetching notes. Please try again.");
+    }
+}
+
+// Render notes in the UI
+function renderNotes(notes) {
+    const notesContainer = document.getElementById("notesContainer");
+    notesContainer.innerHTML = "";
+    notes.forEach((note) => {
+        const noteElement = document.createElement("div");
+        noteElement.className = "note";
+        noteElement.innerHTML = `
+            <h3>${note.title}</h3>
+            <p>${note.content}</p>
+            <button onclick="editNote('${note._id}')">Edit</button>
+            <button onclick="deleteNote('${note._id}')">Delete</button>
+        `;
+        notesContainer.appendChild(noteElement);
+    });
+}
+
+// Add note
+document.getElementById("addNoteForm")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const title = document.getElementById("noteTitle").value;
+    const content = document.getElementById("noteContent").value;
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch(API_URLS.ADD_NOTE, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ title, content }),
+        });
+
+        if (response.ok) {
+            alert("Note added successfully!");
+            fetchNotes();
+        } else {
+            alert("Failed to add note. Please try again.");
+        }
+    } catch (error) {
+        console.error("Add Note Error:", error);
+        alert("An error occurred while adding the note. Please try again.");
+    }
+});
+
+// Edit note
+async function editNote(noteId) {
+    const newTitle = prompt("Edit Note Title:");
+    const newContent = prompt("Edit Note Content:");
+
+    if (newTitle && newContent) {
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await fetch(`${API_URLS.UPDATE_NOTE}${noteId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ title: newTitle, content: newContent }),
+            });
+
+            if (response.ok) {
+                alert("Note updated successfully!");
+                fetchNotes();
+            } else {
+                alert("Failed to update note. Please try again.");
+            }
+        } catch (error) {
+            console.error("Edit Note Error:", error);
+            alert("An error occurred while updating the note. Please try again.");
+        }
+    }
+}
+
+// Delete note
+async function deleteNote(noteId) {
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch(`${API_URLS.DELETE_NOTE}${noteId}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+            alert("Note deleted successfully!");
+            fetchNotes();
+        } else {
+            alert("Failed to delete note. Please try again.");
+        }
+    } catch (error) {
+        console.error("Delete Note Error:", error);
+        alert("An error occurred while deleting the note. Please try again.");
+    }
+}
+
 // Initial notes data
 let notes = [
     { id: 1, title: "Simple Interactive Note 1", content: "This is the content of note 1.", category: "Work" },
@@ -259,4 +381,4 @@ function categorizeNotes() {
 }
 
 // Initialize notes on page load
-document.addEventListener('DOMContentLoaded', renderNotes);
+document.addEventListener("DOMContentLoaded", fetchNotes);

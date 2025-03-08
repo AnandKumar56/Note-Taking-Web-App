@@ -23,6 +23,7 @@ document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
         }
     } catch (error) {
         console.error("Signup Error:", error);
+        alert("An error occurred during signup. Please try again.");
     }
 });
 
@@ -48,6 +49,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
         }
     } catch (error) {
         console.error("Login Error:", error);
+        alert("An error occurred during login. Please try again.");
     }
 });
 
