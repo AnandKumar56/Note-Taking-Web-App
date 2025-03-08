@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet");
 const connectDB = require("./config/db");
+const path = require("path");
 
 dotenv.config(); // Load environment variables
 
@@ -12,6 +13,11 @@ const app = express();
 app.use(express.json()); // Parse JSON requests
 app.use(cors()); // Allow cross-origin requests
 app.use(helmet()); // Secure app by setting various HTTP headers
+
+// Serve favicon
+app.use('/favicon.ico', (req, res) => {
+  res.redirect('https://example.com/path/to/default/favicon.ico'); // Replace with a valid favicon URL
+});
 
 // Connect to MongoDB
 connectDB();
