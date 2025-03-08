@@ -30,26 +30,36 @@
                 padding: 10px;
             }
         }
+
+        /* Add media queries for responsiveness */
+        @media (max-width: 600px) {
+            .login-container {
+                width: 100%;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container-auth">
-        <div id="login-form">
-            <h2>Login</h2>
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" autocomplete="email">
-                <input type="password" id="loginPassword" placeholder="Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="current-password">
+    <div class="login-container">
+        <div class="container-auth">
+            <div id="login-form">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <input type="email" id="loginEmail" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" autocomplete="email">
+                    <input type="password" id="loginPassword" placeholder="Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="current-password">
 
-                <div class="login-options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember-me">
-                        <label for="remember-me">Remember me</label>
-                    </div>
-                    <a href="forget-password.html">Forgot password?</a>
-                </div>              
-                <button type="submit">Login</button>
-            </form>
-            <p>Don't have an account? <a href="signup.html" onclick="toggleForm('signup')">Register here</a></p>
+                    <div class="login-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember-me">
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                        <a href="forget-password.html">Forgot password?</a>
+                    </div>              
+                    <button type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <a href="signup.html" onclick="toggleForm('signup')">Register here</a></p>
+            </div>
         </div>
     </div>
     <script type="module" src="Js/auth.js"></script>

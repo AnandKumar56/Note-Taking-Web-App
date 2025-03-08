@@ -67,6 +67,44 @@ function logout() {
 
 document.getElementById("logoutBtn")?.addEventListener("click", logout);
 
+async function signup(userData) {
+    try {
+        const response = await fetch('/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        if (!response.ok) {
+            throw new Error('Signup failed');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Signup failed: ' + error.message);
+    }
+}
+
+async function login(userData) {
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        if (!response.ok) {
+            throw new Error('Login failed');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Login failed: ' + error.message);
+    }
+}
+
 function showLoadingIndicator() {
     // Implement loading indicator display
 }

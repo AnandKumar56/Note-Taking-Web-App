@@ -28,7 +28,7 @@ router.post(
       await user.save();
       res.status(201).json({ message: "User registered successfully!" });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ message: 'Signup failed', error: error.message });
     }
   }
 );
@@ -57,7 +57,7 @@ router.post(
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES });
       res.json({ token, user });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ message: 'Login failed', error: error.message });
     }
   }
 );

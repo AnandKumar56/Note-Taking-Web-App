@@ -30,22 +30,32 @@
                 padding: 10px;
             }
         }
+
+        /* Add media queries for responsiveness */
+        @media (max-width: 600px) {
+            .signup-container {
+                width: 100%;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container-auth">
-        <div id="signup-form">
-            <h2>Register</h2>
-            <form id="signupForm">
-                <input type="text" id="signupName" placeholder="Name" required pattern="[a-zA-Z0-9]{5,}" autocomplete="name">
-                <input type="email" id="signupEmail" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" autocomplete="email">
-                <input type="password" id="signupPassword" placeholder="Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="new-password">
-                <input type="password" id="signupPasswordConfirm" placeholder="Confirm Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="new-password">
+    <div class="signup-container">
+        <div class="container-auth">
+            <div id="signup-form">
+                <h2>Register</h2>
+                <form id="signupForm">
+                    <input type="text" id="signupName" placeholder="Name" required pattern="[a-zA-Z0-9]{5,}" autocomplete="name">
+                    <input type="email" id="signupEmail" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" autocomplete="email">
+                    <input type="password" id="signupPassword" placeholder="Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="new-password">
+                    <input type="password" id="signupPasswordConfirm" placeholder="Confirm Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="new-password">
 
-                <button type="submit">Register</button>
-            </form>
-            <p>Already have an account? <a href="login.html" onclick="toggleForm('login')">Login here</a></p>
+                    <button type="submit">Register</button>
+                </form>
+                <p>Already have an account? <a href="login.html" onclick="toggleForm('login')">Login here</a></p>
+            </div>
         </div>
     </div>
 
