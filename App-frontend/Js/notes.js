@@ -1,4 +1,5 @@
 import { API_URLS } from "./api.js";
+import { showLoadingIndicator, hideLoadingIndicator, showError } from "./ui.js";
 
 async function fetchNotes() {
     const token = localStorage.getItem("token");
@@ -8,6 +9,7 @@ async function fetchNotes() {
     }
 
     try {
+        showLoadingIndicator();
         const response = await fetch(API_URLS.FETCH_NOTES, {
             method: "GET",
             headers: { "Authorization": `Bearer ${token}` },
@@ -28,6 +30,9 @@ async function fetchNotes() {
         });
     } catch (error) {
         console.error("Fetch Notes Error:", error);
+        showError("Failed to fetch notes. Please try again later.");
+    } finally {
+        hideLoadingIndicator();
     }
 }
 
@@ -39,6 +44,7 @@ document.getElementById("addNoteForm")?.addEventListener("submit", async (e) => 
     const token = localStorage.getItem("token");
 
     try {
+        showLoadingIndicator();
         const response = await fetch(API_URLS.ADD_NOTE, {
             method: "POST",
             headers: {
@@ -54,6 +60,9 @@ document.getElementById("addNoteForm")?.addEventListener("submit", async (e) => 
         }
     } catch (error) {
         console.error("Add Note Error:", error);
+        showError("Failed to add note. Please try again later.");
+    } finally {
+        hideLoadingIndicator();
     }
 });
 

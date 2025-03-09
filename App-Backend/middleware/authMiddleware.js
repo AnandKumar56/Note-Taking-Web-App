@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
@@ -9,10 +9,9 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded.userId;
     next();
   } catch (error) {
-    console.error("Authentication error:", error.message); // Log the error message
+    console.error("Authentication error:", error.message);
     res.status(401).json({ message: "Token is not valid" });
-
   }
 };
 
-module.exports = authMiddleware;
+export default authMiddleware; // Change to export default

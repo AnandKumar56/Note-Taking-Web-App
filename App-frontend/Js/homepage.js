@@ -1,4 +1,5 @@
 import { API_URLS } from "./api.js";
+import { showLoadingIndicator, hideLoadingIndicator, showError } from "./ui.js";
 
 // Fetch notes from the backend
 async function fetchNotes() {
@@ -397,15 +398,3 @@ function categorizeNotes() {
 
 // Initialize notes on page load
 document.addEventListener("DOMContentLoaded", fetchNotes);
-
-function showLoadingIndicator() {
-    // Implement loading indicator display
-}
-
-function hideLoadingIndicator() {
-    // Implement loading indicator hide
-}
-
-function showError(message) {
-    // Implement error message display
-}

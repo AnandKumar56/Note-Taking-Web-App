@@ -13,7 +13,7 @@ describe('Authentication Routes', () => {
 
   it('should register a new user', async () => {
     const res = await request(app)
-      .post('/signup')
+      .post('/api/auth/signup')
       .send({
         username: 'testuser',
         email: 'testuser@example.com',
@@ -25,14 +25,14 @@ describe('Authentication Routes', () => {
 
   it('should not register a user with an existing email', async () => {
     await request(app)
-      .post('/signup')
+      .post('/api/auth/signup')
       .send({
         username: 'testuser2',
         email: 'testuser@example.com',
         password: 'password123'
       });
     const res = await request(app)
-      .post('/signup')
+      .post('/api/auth/signup')
       .send({
         username: 'testuser3',
         email: 'testuser@example.com',
@@ -44,7 +44,7 @@ describe('Authentication Routes', () => {
 
   it('should login an existing user', async () => {
     const res = await request(app)
-      .post('/login')
+      .post('/api/auth/login')
       .send({
         email: 'testuser@example.com',
         password: 'password123'
@@ -55,7 +55,7 @@ describe('Authentication Routes', () => {
 
   it('should not login with invalid credentials', async () => {
     const res = await request(app)
-      .post('/login')
+      .post('/api/auth/login')
       .send({
         email: 'testuser@example.com',
         password: 'wrongpassword'

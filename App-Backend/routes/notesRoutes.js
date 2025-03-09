@@ -1,14 +1,16 @@
-const express = require("express");
-const Note = require("../models/Note");
-const authMiddleware = require("../middleware/authMiddleware");
+import express from "express";
+import Note from "../models/Note.js"; // Ensure to add .js extension
+import authMiddleware from "../middleware/authMiddleware.js"; // Ensure to add .js extension
+
 
 const router = express.Router();
 
-// Create Note
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/notes", authMiddleware, async (req, res) => { // Updated endpoint to /notes
+
   try {
     const { title, content } = req.body;
-    const newNote = new Note({ title, content, userId: req.user });
+    const newNote = new Note({ title, content, userId: req.user, createdAt: new Date() }); // Added createdAt field
+
     await newNote.save();
     res.status(201).json(newNote);
   } catch (error) {
@@ -16,8 +18,8 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Get All Notes for a User
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/notes", authMiddleware, async (req, res) => { // Updated endpoint to /notes
+
   try {
     const notes = await Note.find({ userId: req.user });
     res.json(notes);
@@ -26,8 +28,8 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Update Note
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put("/notes/:id", authMiddleware, async (req, res) => { // Updated endpoint to /notes/:id
+
   try {
     const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedNote);
@@ -36,8 +38,8 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// Delete Note
-router.delete("/:id", authMiddleware, async (req, res) => {
+router.delete("/notes/:id", authMiddleware, async (req, res) => { // Updated endpoint to /notes/:id
+
   try {
     await Note.findByIdAndDelete(req.params.id);
     res.json({ message: "Note deleted successfully" });
@@ -46,4 +48,4 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router; // Change to export default

@@ -1,9 +1,10 @@
 import { API_URLS } from "./api.js";
+import { showLoadingIndicator, hideLoadingIndicator, showError } from "./ui.js";
 
 // User Signup
 document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const name = document.getElementById("signupName").value;
+    const username = document.getElementById("signupName").value;
     const email = document.getElementById("signupEmail").value;
     const password = document.getElementById("signupPassword").value;
 
@@ -12,16 +13,20 @@ document.getElementById("signupForm")?.addEventListener("submit", async (e) => {
         const response = await fetch(API_URLS.REGISTER, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password }),
+            body: JSON.stringify({ username, email, password }),
         });
-        hideLoadingIndicator();
+
         const data = await response.json();
+        hideLoadingIndicator();
 
         if (response.ok) {
-            alert("Signup successful! Please login.");
-            window.location.href = "login.html";
+            alert("Signup successful! Redirecting to login page...");
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 2000);
         } else {
-            alert(data.error || "Signup failed.");
+            console.error("Signup failed:", data);
+            alert(data.error || "Signup failed. Please check your details.");
         }
     } catch (error) {
         hideLoadingIndicator();
@@ -43,14 +48,16 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
         });
-        hideLoadingIndicator();
+
         const data = await response.json();
+        hideLoadingIndicator();
 
         if (response.ok) {
             localStorage.setItem("token", data.token);
             window.location.href = "dashboard.html";
         } else {
-            alert(data.error || "Login failed.");
+            console.error("Login failed:", data);
+            alert(data.error || "Login failed. Please check your credentials.");
         }
     } catch (error) {
         hideLoadingIndicator();
@@ -67,52 +74,16 @@ function logout() {
 
 document.getElementById("logoutBtn")?.addEventListener("click", logout);
 
-async function signup(userData) {
-    try {
-        const response = await fetch('/api/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        });
-        if (!response.ok) {
-            throw new Error('Signup failed');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Signup failed: ' + error.message);
-    }
-}
-
-async function login(userData) {
-    try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        });
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Login failed: ' + error.message);
-    }
-}
-
 function showLoadingIndicator() {
-    // Implement loading indicator display
+    const loader = document.getElementById("loadingIndicator");
+    if (loader) loader.style.display = "block";
 }
 
 function hideLoadingIndicator() {
-    // Implement loading indicator hide
+    const loader = document.getElementById("loadingIndicator");
+    if (loader) loader.style.display = "none";
 }
 
 function showError(message) {
-    // Implement error message display
+    alert(message);
 }
